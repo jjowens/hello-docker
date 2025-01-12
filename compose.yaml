@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    container_name: hello-docker
+    ports:
+      - 9000:3000
+    restart: always
+  db:
+    image: mysql:8.3.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: strong_password
+      MYSQL_DATABASE: company_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-config:/etc/mysql/conf.d
+      - ./home/node/app/sql-scripts/dump.sql:/docker-entrypoint-initdb.d
+volumes:
+  db_data:
